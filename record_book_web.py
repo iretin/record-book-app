@@ -1,5 +1,9 @@
 import streamlit as st
 
+# ✅ 로그인 성공 시 보여줄 내용
+st.set_page_config(page_title="생활기록부 작성기", page_icon="📋")
+st.title("📋 생활기록부 작성기")
+
 # ✅ 간단한 로그인 시스템
 def check_password():
     st.title("🔐 로그인")
@@ -16,10 +20,6 @@ if "authenticated" not in st.session_state:
 if not st.session_state["authenticated"]:
     check_password()
     st.stop()
-
-# ✅ 로그인 성공 시 보여줄 내용
-st.set_page_config(page_title="생활기록부 작성기", page_icon="📋")
-st.title("📋 생활기록부 작성기")
 
 subject = st.selectbox("과목 선택", ["국어", "수학", "영어", "사회", "과학", "기술가정", "도덕", "체육"])
 name = st.text_input("이름")
