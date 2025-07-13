@@ -1,15 +1,27 @@
 import streamlit as st
 
-st.set_page_config(page_title="생활기록부 작성기", page_icon="📋")
+# ✅ 간단한 로그인 시스템
+def check_password():
+    st.title("🔐 로그인")
+    password = st.text_input("비밀번호를 입력하세요", type="password")
+    if password == "1234":  # 원하는 비밀번호로 바꿔도 됨
+        st.session_state["authenticated"] = True
+    elif password:
+        st.error("비밀번호가 틀렸습니다.")
 
+# ✅ 로그인 상태 체크
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
+if not st.session_state["authenticated"]:
+    check_password()
+    st.stop()
+
+# ✅ 로그인 성공 시 보여줄 내용
+st.set_page_config(page_title="생활기록부 작성기", page_icon="📋")
 st.title("📋 생활기록부 작성기")
 
-# ✅ 과목 선택 드롭다운
-subject = st.selectbox(
-    "과목 선택",
-    ["국어", "ddld", "영어", "사회", "과학", "기술가정", "도덕", "체육"]
-)
-
+subject = st.selectbox("과목 선택", ["국어", "수학", "영어", "사회", "과학", "기술가정", "도덕", "체육"])
 name = st.text_input("이름")
 grade = st.text_input("학년/반/번호")
 birth = st.date_input("생년월일")
