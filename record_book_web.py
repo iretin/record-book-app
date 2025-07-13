@@ -21,29 +21,27 @@ if not st.session_state["authenticated"]:
     check_password()
     st.stop()
 
-subject = st.selectbox("과목 선택", ["국어", "수학", "영어", "사회", "과학", "기술가정", "도덕", "체육"])
-name = st.text_input("이름")
-grade = st.text_input("학년/반/번호")
-birth = st.date_input("생년월일")
-talent = st.text_area("특기사항", height=100)
-opinion = st.text_area("담임의견", height=100)
-dream = st.text_input("진로희망")
+import streamlit as st
 
+st.set_page_config(page_title="생활기록부 작성기", page_icon="📋")
+
+st.title("📋 생활기록부 작성기")
+
+# 1. 수업선택 (직접 입력 가능)
+subject_input = st.text_input("수업 선택 (직접 입력)")
+
+# 2. 학생선택 (직접 입력 가능)
+student_input = st.text_input("학생 이름 입력")
+
+# 3. 내용 입력
+content_input = st.text_area("내용 입력", height=200)
+
+# 4. 저장하기 버튼
 if st.button("💾 저장하기"):
-    content = f"""[생활기록부 - {subject}]
-이름: {name}
-학년/반/번호: {grade}
-생년월일: {birth}
-
-[특기사항]
-{talent}
-
-[담임의견]
-{opinion}
-
-[진로희망]
-{dream}
-"""
-    file_name = f"{name}_{subject}_생활기록부.txt"
-    st.download_button("📄 다운로드", content, file_name=file_name)
-    st.success(f"{subject} 생활기록부가 저장되었습니다!")
+    if not subject_input or not student_input or not content_input:
+        st.error("모든 항목을 입력해주세요.")
+    else:
+        file_content = f"[생활기록부]\n수업: {subject_input}\n학생: {student_input}\n\n내용:\n{content_input}"
+        file_name = f"{student_input}_{subject_input}_생활기록부.txt"
+        st.download_button("📄 텍스트 파일 다운로드", file_content, file_name=file_name)
+        st.success(f"'{file_name}' 저장 준비 완료!")
